@@ -6,31 +6,31 @@ using System.Threading.Tasks;
 
 namespace ExcelListCreation
 {
-    class RowOfExportedExcel
+    class RowOfExportedExcel : User
     {
         public string employeeType { get; set; } ="Generic_Account";
 
-        public string company { get; set; } = "Alfa-Beta";
-        public string perNr { get; set; } = "N/A";
-        public string profile { get; set; } = "Greece: PDA Generic account (network, internet, no";
-        public string externalEmail { get; set; } = "N/A";
-        public string startDate { get; set; }
-        public string expirationDate { get; set; } = null;
-        public string costCenterId { get; set; }
-        public string orgUnit { get; set; } = "Greece – AB Stores";
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string nationality { get; set; } = "Greece";
-        public string language { get; set; } = "Greek";
-        public string externalCompany { get; set; } = "N/A";
-        public string ad { get; set; } = "1";
-        public string userId { get; set; }
-        public string exceptionNumber { get; set; } = "EXP-01380";
+        public string Company { get; set; } = "Alfa-Beta";
+        public string PerNr { get; set; } = "N/A";
+        public string Profile { get; set; } = "Greece: PDA Generic account (network, internet, no";
+        public string ExternalEmail { get; set; } = "N/A";
+        public string StartDate { get; set; }
+        public string ExpirationDate { get; set; } = null;
+        public string CostCenterId { get; set; }
+        public string OrgUnit { get; set; } = "Greece – AB Stores";
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Nationality { get; set; } = "Greece";
+        public string Language { get; set; } = "Greek";
+        public string ExternalCompany { get; set; } = "N/A";
+        public string Ad { get; set; } = "1";
+        public string UserId { get; set; }
+        public string ExceptionNumber { get; set; } = "EXP-01380";
 
 
         public override string ToString()
         {
-            return this.employeeType + "| " + this.company + "| " + this.perNr + "| " + this.profile + "| " + this.externalEmail + "| " + this.startDate + "| " + this.expirationDate + "| " + this.costCenterId + "| " + this.orgUnit + "| " + this.firstName + "| " + this.lastName + "| " + this.nationality + "| " + this.language + "| " + this.externalCompany + "| " + this.ad + "| " + this.userId + "| " + this.exceptionNumber;
+            return this.employeeType + "| " + this.Company + "| " + this.PerNr + "| " + this.Profile + "| " + this.ExternalEmail + "| " + this.StartDate + "| " + this.ExpirationDate + "| " + this.CostCenterId + "| " + this.OrgUnit + "| " + this.FirstName + "| " + this.LastName + "| " + this.Nationality + "| " + this.Language + "| " + this.ExternalCompany + "| " + this.Ad + "| " + this.UserId + "| " + this.ExceptionNumber;
         }
     }
 }

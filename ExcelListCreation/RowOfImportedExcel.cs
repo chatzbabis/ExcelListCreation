@@ -13,18 +13,20 @@ namespace ExcelListCreation
         public string storeName { get; set; }
         public string sapId { get; set; }
         public int numberOfUsers { get; set; }
+        public string artemisId { get; set; }
 
         public RowOfImportedExcel()
         {
         }
 
-        public RowOfImportedExcel(string startDate, string costCenterId, string storeName, string sapId, int numberOfUsers)
+        public RowOfImportedExcel(string startDate, string costCenterId, string storeName, string sapId, int numberOfUsers,string artemisId)
         {
             this.startDate = startDate;
             this.costCenterId = costCenterId;
             this.storeName = storeName;
             this.sapId = sapId;
             this.numberOfUsers = numberOfUsers;
+            this.artemisId = artemisId;
         }
 
         public override string ToString()

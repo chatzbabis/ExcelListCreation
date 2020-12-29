@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -14,6 +16,7 @@ namespace ExcelListCreation
     {
         private string importedFilePath=null;
         private string exportFilePath=null;
+        string fileName = "FileName.xlsx";
         public Form1()
         {
             InitializeComponent();
@@ -53,14 +56,39 @@ namespace ExcelListCreation
 
         private void Button2_Click(object sender, EventArgs e)
         {
-             if (!String.IsNullOrEmpty(importedFilePath) && !String.IsNullOrEmpty(exportFilePath)) 
+            Cursor.Current = Cursors.WaitCursor;
+            if (String.IsNullOrEmpty(textBox1.Text)) 
             {
+                importedFilePath = null;
+            }
+            if (String.IsNullOrEmpty(textBox2.Text)) 
+            {
+                exportFilePath = null;
+            }
+            importedFilePath = textBox1.Text;
+            exportFilePath = textBox2.Text;
+             if (!String.IsNullOrEmpty(importedFilePath) && File.Exists(importedFilePath) && Directory.Exists(exportFilePath) && !String.IsNullOrEmpty(exportFilePath)) 
+            {
+
+                this.timer1.Start();
                 List<RowOfImportedExcel> rowsOfImportedExcel = ReadFromExcel(importedFilePath);
                 List<RowOfExportedExcel> rowsOfExportedExcel = GenerateRowOfExportedExcel(rowsOfImportedExcel);
                 ExportToExcel(rowsOfExportedExcel, exportFilePath);
+                this.timer1.Stop();
+                string filePath = exportFilePath + "\\" + fileName;
+                string argument = "/select, \"" + filePath + "\"";
+                Process.Start("explorer.exe",argument);
             }
             else 
-            { 
+            {
+                if (!File.Exists(importedFilePath)&& !String.IsNullOrEmpty(importedFilePath)) 
+                {
+                    MessageBox.Show("File does not exist");
+                }
+                if (!Directory.Exists(exportFilePath)&& !String.IsNullOrEmpty(exportFilePath))
+                {
+                    MessageBox.Show("Folder does not exist");
+                }
                 if (String.IsNullOrEmpty(importedFilePath))
                 {
                     MessageBox.Show("Please choose an excel file");
@@ -71,12 +99,13 @@ namespace ExcelListCreation
                 }
            
             }
-            
+            Cursor.Current = Cursors.Default;
+
         }
 
         private void ExportToExcel(List<RowOfExportedExcel> rowsOfExportedExcel, string ExcelSavingPath)
         {
-            string fileName="FileName.xlsx";
+            
             string path = ExcelSavingPath;
             string fullExcelSavingPath = path+"\\" +fileName;
             GenerateExcel(ConvertToDataTable(rowsOfExportedExcel),fullExcelSavingPath);
@@ -222,11 +251,21 @@ namespace ExcelListCreation
                 for (cCnt = 1; cCnt <= cl; cCnt++)
                 {
                     cellValue = (range.Cells[rCnt, cCnt] as Excel.Range).Value2;
-                    if (cellValue is double)
+                    //for NumbersOfUsers Column where cellValue is double 
+                    if (cCnt == 5)
                     {
                         int NumberOfUsers = Convert.ToInt32(cellValue);
                         //Console.Write(NumberOfUsers+" ");
                         row.numberOfUsers = NumberOfUsers;
+                        Console.Write(NumberOfUsers+" ");
+                        continue;
+                    }
+                    //for ArtemisId Column where cellValue is double 
+                    if (cCnt == 6) 
+                    {
+                        string artemisId = cellValue.ToString();
+                        row.artemisId = artemisId;
+                        Console.Write(artemisId + " ");
                         continue;
                     }
                     
@@ -241,13 +280,14 @@ namespace ExcelListCreation
                     }
 
                     GenerateObjectWithRowValuesOfImportedExcel(str,row,cCnt);
-                    //Console.Write(str+" ");
+                    Console.Write(str+" ");
+                   
 
                     if (String.IsNullOrEmpty(str))
                     {
                         nullCell++;
                     }
-                    if (nullCell == 5)
+                    if (nullCell == 7)
                     {
                         break;
                     }
@@ -263,7 +303,7 @@ namespace ExcelListCreation
                 }
                 rows.Add(row);
             }
-            PrintList(rows);
+            //PrintList(rows);
             return rows;
 
             xlWorkBook.Close(true, null, null);
@@ -300,6 +340,9 @@ namespace ExcelListCreation
                 case 4:
                     row.sapId = value;
                     break;
+                case 6:
+                    row.artemisId = value;
+                    break;
             }
         }
 
@@ -315,20 +358,43 @@ namespace ExcelListCreation
                     GenerateRowOfExportedExcelWithValues(row, rowOfImportedExcel, i);
                     rows.Add(row);
                 }
+                RowOfExportedExcel bofUser = new RowOfExportedExcel();
+                GenerateBofUser(bofUser, rowOfImportedExcel);
+                rows.Add(bofUser);
             }
+            Console.WriteLine(rows.Capacity);
             return rows;
         }
 
         private void GenerateRowOfExportedExcelWithValues(RowOfExportedExcel row, RowOfImportedExcel rowOfImportedExcel,int i) 
         {
-            row.startDate = rowOfImportedExcel.startDate;
-            row.costCenterId = rowOfImportedExcel.costCenterId;
-            row.firstName = "PDA" + i.ToString();
-            row.lastName = "AB PDA" + i.ToString() + rowOfImportedExcel.storeName;
-            row.userId = "PDA" + i.ToString() + rowOfImportedExcel.sapId;
-            Console.WriteLine(row.ToString());
+            row.StartDate = rowOfImportedExcel.startDate;
+            row.CostCenterId = rowOfImportedExcel.costCenterId;
+            row.FirstName = "PDA" + i.ToString();
+            row.LastName = "AB PDA" + i.ToString() + rowOfImportedExcel.storeName;
+            row.UserId = "PDA" + i.ToString() + rowOfImportedExcel.sapId;
+            //Console.WriteLine(row.ToString());
         }
 
-        
+        private void GenerateBofUser(RowOfExportedExcel bofUser, RowOfImportedExcel rowOfImportedExcel)
+        {
+            bofUser.Profile = "Greece: Basic User with Network (No mailbox, no In";
+            bofUser.StartDate = rowOfImportedExcel.startDate;
+            bofUser.CostCenterId = rowOfImportedExcel.costCenterId;
+            bofUser.FirstName = rowOfImportedExcel.storeName + "_BOF";
+            bofUser.LastName = "Store";
+            bofUser.UserId = "BOFGR" + rowOfImportedExcel.artemisId;
+            //Console.WriteLine(bofUser.ToString());
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.progressBar1.Increment(1);
+        }
     }
 }
