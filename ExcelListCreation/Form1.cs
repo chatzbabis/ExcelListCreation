@@ -14,6 +14,7 @@ namespace ExcelListCreation
 {
     public partial class Form1 : Form
     {
+        DateTime today = DateTime.Today;
         private string importedFilePath=null;
         private string exportFilePath=null;
         string fileName = "FileName.xlsx";
@@ -37,7 +38,7 @@ namespace ExcelListCreation
             {
                 textBox1.Text = vi.FileName;
                 importedFilePath = vi.FileName;
-                Console.WriteLine(importedFilePath); 
+                //Console.WriteLine(importedFilePath); 
                 //RichTextBox.Text = Path.GetFileName(vi.FileName);
 
             }
@@ -72,6 +73,7 @@ namespace ExcelListCreation
 
                 this.timer1.Start();
                 List<RowOfImportedExcel> rowsOfImportedExcel = ReadFromExcel(importedFilePath);
+                Console.WriteLine(rowsOfImportedExcel.Capacity);
                 List<RowOfExportedExcel> rowsOfExportedExcel = GenerateRowOfExportedExcel(rowsOfImportedExcel);
                 ExportToExcel(rowsOfExportedExcel, exportFilePath);
                 this.timer1.Stop();
@@ -184,7 +186,7 @@ namespace ExcelListCreation
             {
                 //Setting column names as Property names  
                 dataTable.Columns.Add(prop.Name);
-                Console.WriteLine(prop.Name);
+                //Console.WriteLine(prop.Name);
             }
             // Adding Row and its value to our dataTable
             foreach (RowOfExportedExcel item in models)
@@ -202,7 +204,7 @@ namespace ExcelListCreation
             {
                 foreach (var item in dataRow.ItemArray)
                 {
-                    Console.WriteLine(item);
+                    //Console.WriteLine(item);
                 }
             }
            
@@ -243,15 +245,17 @@ namespace ExcelListCreation
 
             int nullCell;
             List<RowOfImportedExcel> rows = new List<RowOfImportedExcel>();
+            List<string> headers = new List<string>();
             for (rCnt = 1; rCnt <= rw; rCnt++)
             {
-                Console.WriteLine();
+                //Console.WriteLine();
                 RowOfImportedExcel row = new RowOfImportedExcel();
                 nullCell = 0;
                 for (cCnt = 1; cCnt <= cl; cCnt++)
                 {
                     cellValue = (range.Cells[rCnt, cCnt] as Excel.Range).Value2;
                     //for NumbersOfUsers Column where cellValue is double 
+                    /*
                     if (cCnt == 5)
                     {
                         int NumberOfUsers = Convert.ToInt32(cellValue);
@@ -263,26 +267,30 @@ namespace ExcelListCreation
                     //for ArtemisId Column where cellValue is double 
                     if (cCnt == 6) 
                     {
-                        string artemisId = cellValue.ToString();
+                        string artemisId = (string)cellValue;
                         row.artemisId = artemisId;
                         Console.Write(artemisId + " ");
                         continue;
-                    }
+                    }*/
                     
-                    str = (string)cellValue;
+                    //str = (string)cellValue;
 
                     //ignore first row if it 's headers
-                    if (!String.IsNullOrEmpty(str)){
-                        if (str.Equals("StartDate"))
+                    if (cellValue!=null)
+                    {
+                        if (rCnt==1)
                         {
-                            break;
+                            headers.Add((string)cellValue);
+                            continue;
                         }
                     }
-
-                    GenerateObjectWithRowValuesOfImportedExcel(str,row,cCnt);
-                    Console.Write(str+" ");
-                   
-
+                    int headerIndex = cCnt - 1;
+                    GenerateObjectWithRowValuesOfImportedExcel(cellValue, row,headers[headerIndex]);
+                    Console.Write(headers[cCnt - 1] + ": ");
+                    Console.Write(cellValue.ToString() + " ");
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    /*
                     if (String.IsNullOrEmpty(str))
                     {
                         nullCell++;
@@ -290,20 +298,26 @@ namespace ExcelListCreation
                     if (nullCell == 7)
                     {
                         break;
-                    }
+                    }*/
                 }
 
                 //not add to list first row with headers
-                if (!String.IsNullOrEmpty(str))
+                /*if (!String.IsNullOrEmpty(str))
                 {
                     if (str.Equals("StartDate"))
                     {
                         continue;
                     }
+                }*/
+                if (rCnt != 1)
+                {
+                    rows.Add(row);
                 }
-                rows.Add(row);
             }
-            //PrintList(rows);
+            Console.WriteLine("---------------------------------------------");
+
+            PrintList(rows);
+            Console.WriteLine("---------------------------------------------");
             return rows;
 
             xlWorkBook.Close(true, null, null);
@@ -323,27 +337,41 @@ namespace ExcelListCreation
         }
 
         //genetate RowOfImportedExcel with the values of imported excel
-        private void GenerateObjectWithRowValuesOfImportedExcel(string value,RowOfImportedExcel row,int i)
-        { 
-            switch(i)
+        private void GenerateObjectWithRowValuesOfImportedExcel(Object cellValue, RowOfImportedExcel row,string header)
+        {
+            string value = null;
+            if (string.Equals(header, "StartDate", StringComparison.CurrentCultureIgnoreCase))
             {
-                case 1:
-                    DateTime today = DateTime.Today;
-                    row.startDate = today.ToString(("dd/MM/yyyy"));
-                    break;
-                case 2:
-                    row.costCenterId = value;
-                    break;
-                case 3:
-                    row.storeName = value;
-                    break;
-                case 4:
-                    row.sapId = value;
-                    break;
-                case 6:
-                    row.artemisId = value;
-                    break;
+                row.startDate = today.ToString(("dd/MM/yyyy"));
             }
+            else if (string.Equals(header, "CostcenterID", StringComparison.CurrentCultureIgnoreCase)) 
+            {
+                value = (string)cellValue;
+                row.costCenterId = value;
+            }
+            else if (string.Equals(header, "SAP_ID", StringComparison.CurrentCultureIgnoreCase))
+            {
+                value = (string)cellValue;
+                row.sapId = value;
+            }
+            else if (string.Equals(header, "ArtemisID", StringComparison.CurrentCultureIgnoreCase))
+            {
+                value = cellValue.ToString();
+                row.artemisId = value;
+            }
+            else if (string.Equals(header, "StoreName", StringComparison.CurrentCultureIgnoreCase))
+            {
+                value = (string)cellValue;
+                row.storeName = value;
+            }
+            else if (string.Equals(header, "NumberOfUsers", StringComparison.CurrentCultureIgnoreCase))
+            {
+                int NumberOfUsers = Convert.ToInt32(cellValue);
+                row.numberOfUsers = NumberOfUsers;
+                //Console.Write(NumberOfUsers + " ");
+            }
+
+
         }
 
         private List<RowOfExportedExcel> GenerateRowOfExportedExcel(List<RowOfImportedExcel>ListOfValues) 
@@ -362,13 +390,13 @@ namespace ExcelListCreation
                 GenerateBofUser(bofUser, rowOfImportedExcel);
                 rows.Add(bofUser);
             }
-            Console.WriteLine(rows.Capacity);
+            //Console.WriteLine(rows.Capacity);
             return rows;
         }
 
         private void GenerateRowOfExportedExcelWithValues(RowOfExportedExcel row, RowOfImportedExcel rowOfImportedExcel,int i) 
         {
-            row.StartDate = rowOfImportedExcel.startDate;
+            row.StartDate = row.StartDate = today.ToString(("dd/MM/yyyy"));
             row.CostCenterId = rowOfImportedExcel.costCenterId;
             row.FirstName = "PDA" + i.ToString();
             row.LastName = "AB PDA" + i.ToString() + rowOfImportedExcel.storeName;
@@ -379,7 +407,7 @@ namespace ExcelListCreation
         private void GenerateBofUser(RowOfExportedExcel bofUser, RowOfImportedExcel rowOfImportedExcel)
         {
             bofUser.Profile = "Greece: Basic User with Network (No mailbox, no In";
-            bofUser.StartDate = rowOfImportedExcel.startDate;
+            bofUser.StartDate = today.ToString(("dd/MM/yyyy"));
             bofUser.CostCenterId = rowOfImportedExcel.costCenterId;
             bofUser.FirstName = rowOfImportedExcel.storeName + "_BOF";
             bofUser.LastName = "Store";
