@@ -1,7 +1,7 @@
 ﻿
 namespace ExcelListCreation
 {
-    partial class Form1
+    partial class UsersListCreation
     {
         /// <summary>
         /// Required designer variable.
@@ -30,24 +30,25 @@ namespace ExcelListCreation
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.button1 = new System.Windows.Forms.Button();
+            this.SelectInitialList = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.CreateTheList = new System.Windows.Forms.Button();
+            this.SelectPath = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Help = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // SelectInitialList
             // 
-            this.button1.Location = new System.Drawing.Point(18, 46);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 20);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Select initial list";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click_1);
+            this.SelectInitialList.Location = new System.Drawing.Point(18, 46);
+            this.SelectInitialList.Name = "SelectInitialList";
+            this.SelectInitialList.Size = new System.Drawing.Size(122, 20);
+            this.SelectInitialList.TabIndex = 0;
+            this.SelectInitialList.Text = "Select initial list";
+            this.SelectInitialList.UseVisualStyleBackColor = true;
+            this.SelectInitialList.Click += new System.EventHandler(this.Button1_Click_1);
             // 
             // textBox1
             // 
@@ -56,25 +57,25 @@ namespace ExcelListCreation
             this.textBox1.Size = new System.Drawing.Size(144, 20);
             this.textBox1.TabIndex = 1;
             // 
-            // button2
+            // CreateTheList
             // 
-            this.button2.Location = new System.Drawing.Point(83, 176);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(159, 22);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Create the list";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            this.CreateTheList.Location = new System.Drawing.Point(83, 176);
+            this.CreateTheList.Name = "CreateTheList";
+            this.CreateTheList.Size = new System.Drawing.Size(159, 22);
+            this.CreateTheList.TabIndex = 2;
+            this.CreateTheList.Text = "Create the list";
+            this.CreateTheList.UseVisualStyleBackColor = true;
+            this.CreateTheList.Click += new System.EventHandler(this.Button2_Click);
             // 
-            // button3
+            // SelectPath
             // 
-            this.button3.Location = new System.Drawing.Point(18, 106);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(126, 20);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Select path";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.SelectPath.Location = new System.Drawing.Point(18, 106);
+            this.SelectPath.Name = "SelectPath";
+            this.SelectPath.Size = new System.Drawing.Size(126, 20);
+            this.SelectPath.TabIndex = 3;
+            this.SelectPath.Text = "Select path";
+            this.SelectPath.UseVisualStyleBackColor = true;
+            this.SelectPath.Click += new System.EventHandler(this.button3_Click);
             // 
             // textBox2
             // 
@@ -95,18 +96,29 @@ namespace ExcelListCreation
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // Form1
+            // Help
+            // 
+            this.Help.Location = new System.Drawing.Point(278, 1);
+            this.Help.Name = "Help";
+            this.Help.Size = new System.Drawing.Size(46, 22);
+            this.Help.TabIndex = 6;
+            this.Help.Text = "Help";
+            this.Help.UseVisualStyleBackColor = true;
+            this.Help.Click += new System.EventHandler(this.Help_Click);
+            // 
+            // UsersListCreation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(336, 262);
+            this.Controls.Add(this.Help);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.SelectPath);
+            this.Controls.Add(this.CreateTheList);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Controls.Add(this.SelectInitialList);
+            this.Name = "UsersListCreation";
             this.Text = "Users List Creation";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -115,13 +127,14 @@ namespace ExcelListCreation
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button SelectInitialList;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button CreateTheList;
+        private System.Windows.Forms.Button SelectPath;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button Help;
     }
 }
 
