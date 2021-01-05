@@ -98,7 +98,7 @@ namespace ExcelListCreation
             // 
             // Help
             // 
-            this.Help.Location = new System.Drawing.Point(278, 1);
+            this.Help.Location = new System.Drawing.Point(278, 12);
             this.Help.Name = "Help";
             this.Help.Size = new System.Drawing.Size(46, 22);
             this.Help.TabIndex = 6;
