@@ -4,6 +4,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ExcelListCreation
 {
@@ -169,9 +170,10 @@ namespace ExcelListCreation
             if (string.Equals(header, "CostcenterID", StringComparison.CurrentCultureIgnoreCase))
             {
                 value = cellValue.ToString();
-                if (!value.StartsWith("GS") || !(value is string)) 
+                Regex rgx = new Regex(@"[Gg][Ss][0-9]{6}$");
+                if (!rgx.IsMatch(value)) 
                 {
-                    MessageBox.Show("CostcenterID in row: "+ numberOfRow + " must begin with 'GS'");
+                    MessageBox.Show("CostcenterID in row "+ numberOfRow + " must follow pattern 'GS+numbers' e.g 'GS000009'", "Error during list creation");
                     Application.Restart();
                     Environment.Exit(0);
                 }
@@ -180,9 +182,10 @@ namespace ExcelListCreation
             {
 
                 value = cellValue.ToString();
-                if (!value.StartsWith("G") || !(value is string) )
+                Regex rgx =new Regex( @"[Gg][0-9]{3}$");
+                if (!rgx.IsMatch(value) /*|| !(value is string)*/ )
                 {
-                    MessageBox.Show("SAP_ID in row: " + numberOfRow + " must begin with 'G'");
+                    MessageBox.Show("SAP_ID in row " + numberOfRow + " must follow pattern 'G+numbers' e.g 'G014'", "Error during list creation");
                     Application.Restart();
                     Environment.Exit(0);
                 }
@@ -192,7 +195,7 @@ namespace ExcelListCreation
                 value = cellValue.ToString();
                 if (!value.All(char.IsDigit))
                 {
-                    MessageBox.Show("ArtemisID in row: " + numberOfRow + " must contains only numbers");
+                    MessageBox.Show("ArtemisID in row " + numberOfRow + " must contains only numbers", "Error during list creation");
                     Application.Restart();
                     Environment.Exit(0);
                 }
@@ -202,16 +205,17 @@ namespace ExcelListCreation
                 value = cellValue.ToString();
                 if (!value.All(char.IsDigit))
                 {
-                    MessageBox.Show("NumberOfUsers in row: " + numberOfRow + " must contains only numbers");
+                    MessageBox.Show("NumberOfUsers in row " + numberOfRow + " must contains only numbers", "Error during list creation");
                     Application.Restart();
                     Environment.Exit(0);
                 }
+                value = cellValue.ToString();
                 //Console.Write(NumberOfUsers + " ");
                 int numberOfUsers = Convert.ToInt32(cellValue);
-
-                if (numberOfUsers > 20)
+                if (numberOfUsers > 20 && numberOfUsers <= 30)
                 {
-                    DialogResult dialogResult = MessageBox.Show("NumberOfUsers in row: " + numberOfRow + " Do you want to continue ", "NumberOfUsers>20", MessageBoxButtons.YesNo);
+                   // MessageBox.Show("For store in row " + numberOfRow + " you are requesting " + value + " users. Do you want to continue");
+                    DialogResult dialogResult = MessageBox.Show("For store in row " + numberOfRow + " you are requesting " + value + " users. Do you want to continue", "Error during list creation", MessageBoxButtons.YesNo);
                     switch (dialogResult)
                     {
                         case DialogResult.Yes:
@@ -221,6 +225,12 @@ namespace ExcelListCreation
                             Environment.Exit(0);
                             break;
                     }
+                }
+                else if (numberOfUsers > 30) 
+                {
+                    MessageBox.Show("Error in row " + numberOfRow + ". Maximum number of users is 30.", "Error during list creation");
+                    Application.Restart();
+                    Environment.Exit(0);
                 }
             }
 

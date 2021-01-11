@@ -58,7 +58,9 @@ namespace ExcelListCreation
         //creat the list
         private void Button2_Click(object sender, EventArgs e)
         {
+           
             Cursor.Current = Cursors.WaitCursor;
+            
             if (String.IsNullOrEmpty(textBox1.Text)) 
             {
                 importedFilePath = null;
@@ -72,12 +74,12 @@ namespace ExcelListCreation
              if (!String.IsNullOrEmpty(importedFilePath) && File.Exists(importedFilePath) && Directory.Exists(exportFilePath) && !String.IsNullOrEmpty(exportFilePath)) 
             {
 
-                this.timer1.Start();
+                
                 List<RowOfImportedExcel> rowsOfImportedExcel = ImportInitialList.ReadFromExcel(importedFilePath);
                 Console.WriteLine(rowsOfImportedExcel.Capacity);
                 List<RowOfExportedExcel> rowsOfExportedExcel = CreationList.GenerateRowOfExportedExcel(rowsOfImportedExcel);
                 ExportToExcelFile.ExportToExcel(rowsOfExportedExcel, exportFilePath);
-                this.timer1.Stop();
+               
                 string filePath = exportFilePath + "\\" + ExportToExcelFile.fileName;
                 string argument = "/select, \"" + filePath + "\"";
                 Process.Start("explorer.exe",argument);
@@ -94,7 +96,7 @@ namespace ExcelListCreation
                 }
                 if (String.IsNullOrEmpty(importedFilePath))
                 {
-                    MessageBox.Show("Please choose an excel file");
+                    MessageBox.Show("Please choose the initial list");
                 }
                 else if (String.IsNullOrEmpty(exportFilePath)) 
                 {
@@ -106,15 +108,7 @@ namespace ExcelListCreation
 
         }
 
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            this.progressBar1.Increment(1);
-        }
+       
        
         private void Help_Click(object sender, EventArgs e)
         {

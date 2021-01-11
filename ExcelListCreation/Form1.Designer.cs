@@ -29,14 +29,11 @@ namespace ExcelListCreation
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.SelectInitialList = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CreateTheList = new System.Windows.Forms.Button();
             this.SelectPath = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.Help = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -84,18 +81,6 @@ namespace ExcelListCreation
             this.textBox2.Size = new System.Drawing.Size(144, 20);
             this.textBox2.TabIndex = 4;
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(18, 250);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(295, 10);
-            this.progressBar1.TabIndex = 5;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // Help
             // 
             this.Help.Location = new System.Drawing.Point(278, 12);
@@ -112,7 +97,6 @@ namespace ExcelListCreation
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(336, 262);
             this.Controls.Add(this.Help);
-            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.SelectPath);
             this.Controls.Add(this.CreateTheList);
@@ -132,8 +116,6 @@ namespace ExcelListCreation
         private System.Windows.Forms.Button CreateTheList;
         private System.Windows.Forms.Button SelectPath;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button Help;
     }
 }

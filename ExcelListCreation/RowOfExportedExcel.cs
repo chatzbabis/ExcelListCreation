@@ -8,7 +8,7 @@ namespace ExcelListCreation
 {
     class RowOfExportedExcel : User
     {
-        public string employeeType { get; set; } ="Generic_Account";
+        public string EmployeeType { get; set; } ="Generic_Account";
 
         public string Company { get; set; } = "Alfa-Beta";
         public string PerNr { get; set; } = "N/A";
@@ -30,7 +30,7 @@ namespace ExcelListCreation
 
         public override string ToString()
         {
-            return this.employeeType + "| " + this.Company + "| " + this.PerNr + "| " + this.Profile + "| " + this.ExternalEmail + "| " + this.StartDate + "| " + this.ExpirationDate + "| " + this.CostCenterId + "| " + this.OrgUnit + "| " + this.FirstName + "| " + this.LastName + "| " + this.Nationality + "| " + this.Language + "| " + this.ExternalCompany + "| " + this.Ad + "| " + this.UserId + "| " + this.ExceptionNumber;
+            return this.EmployeeType + "| " + this.Company + "| " + this.PerNr + "| " + this.Profile + "| " + this.ExternalEmail + "| " + this.StartDate + "| " + this.ExpirationDate + "| " + this.CostCenterId + "| " + this.OrgUnit + "| " + this.FirstName + "| " + this.LastName + "| " + this.Nationality + "| " + this.Language + "| " + this.ExternalCompany + "| " + this.Ad + "| " + this.UserId + "| " + this.ExceptionNumber;
         }
     }
 }

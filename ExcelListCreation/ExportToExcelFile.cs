@@ -10,7 +10,7 @@ namespace ExcelListCreation
 {
     class ExportToExcelFile
     {
-        public static string fileName = "UsersList.xlsx";
+        public static string fileName = "SOP_Create_generic_users.xlsx";
         public static void ExportToExcel(List<RowOfExportedExcel> rowsOfExportedExcel, string ExcelSavingPath)
         {
 
