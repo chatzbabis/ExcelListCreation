@@ -69,6 +69,7 @@ namespace ExcelListCreation
                     {
                         if (rCnt == 1)
                         {
+                           
                             headers.Add((string)cellValue);
                             continue;
                         }
@@ -127,6 +128,7 @@ namespace ExcelListCreation
         //genetate RowOfImportedExcel with the values of imported excel
         public static void GenerateObjectWithRowValuesOfImportedExcel(Object cellValue, RowOfImportedExcel row, string header,int numberOfRow)
         {
+            header = header.Replace(" ", "");
             string value = null;
             validations(cellValue, header, numberOfRow);
             if (string.Equals(header, "StartDate", StringComparison.CurrentCultureIgnoreCase))
@@ -152,7 +154,8 @@ namespace ExcelListCreation
             else if (string.Equals(header, "StoreName", StringComparison.CurrentCultureIgnoreCase))
             {
                 value = (string)cellValue;
-                row.storeName = value;
+                string valueWithoutSpaces = value.Replace(" ", "");
+                row.storeName = valueWithoutSpaces;
             }
             else if (string.Equals(header, "NumberOfUsers", StringComparison.CurrentCultureIgnoreCase))
             {
@@ -214,7 +217,7 @@ namespace ExcelListCreation
                 int numberOfUsers = Convert.ToInt32(cellValue);
                 if (numberOfUsers > 20 && numberOfUsers <= 30)
                 {
-                   // MessageBox.Show("For store in row " + numberOfRow + " you are requesting " + value + " users. Do you want to continue");
+                   // MessageBox.Show("For store in row " + numberOfRow + " you are requesting " + value + " users. Do you want to continue?");
                     DialogResult dialogResult = MessageBox.Show("For store in row " + numberOfRow + " you are requesting " + value + " users. Do you want to continue", "Error during list creation", MessageBoxButtons.YesNo);
                     switch (dialogResult)
                     {
