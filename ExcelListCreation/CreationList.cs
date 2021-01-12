@@ -32,7 +32,7 @@ namespace ExcelListCreation
         {
             DateTime today = DateTime.Today;
 
-            row.StartDate = today.ToString(("dd/MM/yyyy"));
+            row.StartDate = today.ToString(("MM/dd/yyyy"));
             row.CostCenterId = rowOfImportedExcel.costCenterId;
             row.FirstName = "PDA" + i.ToString();
             row.LastName = "AB PDA" + i.ToString() + rowOfImportedExcel.storeName;
@@ -45,12 +45,14 @@ namespace ExcelListCreation
             DateTime today = DateTime.Today;
 
             bofUser.Profile = "Greece: Basic User with Network (No mailbox, no In";
-            bofUser.StartDate = today.ToString(("dd/MM/yyyy"));
+            bofUser.StartDate = today.ToString(("MM/dd/yyyy"));
             bofUser.CostCenterId = rowOfImportedExcel.costCenterId;
             bofUser.FirstName = rowOfImportedExcel.storeName + "_BOF";
             bofUser.LastName = "Store";
             bofUser.UserId = "BOFGR" + rowOfImportedExcel.artemisId;
-            //Console.WriteLine(bofUser.ToString());
+            Console.WriteLine("----------------------------------------------------");
+            Console.WriteLine(bofUser.ToString());
+            Console.WriteLine("----------------------------------------------------");
         }
     }
 }

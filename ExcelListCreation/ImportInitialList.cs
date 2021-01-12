@@ -134,7 +134,11 @@ namespace ExcelListCreation
             if (string.Equals(header, "StartDate", StringComparison.CurrentCultureIgnoreCase))
             {
                 DateTime today = DateTime.Today;
-                row.startDate = today.ToString(("dd/MM/yyyy"));
+                row.startDate = today.ToString(("MM/dd/yyyy"));
+                Console.WriteLine("----------------------------------------------------");
+                Console.WriteLine(row.startDate);
+                Console.WriteLine("----------------------------------------------------");
+
             }
             else if (string.Equals(header, "CostcenterID", StringComparison.CurrentCultureIgnoreCase))
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExcelListCreation
 {
-    class RowOfExportedExcel : User
+    class RowOfExportedExcel
     {
         public string EmployeeType { get; set; } ="Generic_Account";
 
